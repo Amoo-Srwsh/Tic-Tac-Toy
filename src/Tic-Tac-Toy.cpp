@@ -75,5 +75,52 @@ void displayBoard(char [][COLS])
 //function 2
 void playerTurn(char board[][COLS] , char symbol)
 {
-	//project stop.....
+	//The isAvailable flag is set to true when the
+	//player selects a location in the board that
+	//is availabel.
+	bool isAvailable = false;
+	
+	int row;
+	int col;
+	
+	cout << "Player " << symbol << "s' turn.\n";
+	cout << "Enter a row and column to place an " << symbol << ".\n";
+	
+	//Get and validate the location.
+	while (!isAvailable)
+	{
+	     //Get the row.
+	     cout << "Row: "; cin >> row;
+		
+	     //Validate the row.
+	     while (row < 1 || row > ROWS)
+	     {
+		  cout << "Invalid Row!\n";
+		  cout << "Row: "; cin >> row;
+	     }
+             
+	     //Get the column.
+	     cout << "Column: "; cin >> col;
+		
+	     //Validate the column.
+	     while (col < 1 || col > COLS)
+	     {
+		  cout << "Invalid Column!\n";
+		  cout << "Column: "; cin >> col;
+	     }
+	     //Determine whether the selected
+	     //Call is available.
+	     if(board[row - 1][col - 1] == '*')
+		isAvailabel = true;
+	     else
+                cout << "That location is not available. " << "Select another location.\n";
+		
+	}
+	
+	//place the player's symbol on thw board
+	//at the selected location
+	board[row - 1][col -1] = symbol;
+}
+		
+		
 }
