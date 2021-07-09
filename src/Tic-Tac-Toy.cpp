@@ -121,6 +121,17 @@ void playerTurn(char board[][COLS] , char symbol)
 	//at the selected location
 	board[row - 1][col -1] = symbol;
 }
+
+//function 3
+bool gameOver(char board[][COLS])
+{
+       //if either player has already won, game over.
+       if(playerWins(board , 'X') || playerWins(board , 'O'))
+	    return true;
+       else if (playerCanWin(board , 'X') || playerCanWin(board , 'O'))
+	    return false;
+       else
+	    return true;
 		
 		
 }
