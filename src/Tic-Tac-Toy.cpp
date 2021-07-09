@@ -133,5 +133,39 @@ bool gameOver(char board[][COLS])
        else
 	    return true;
 		
-}		
+}
+
+//function 4
+bool playerWins(char board[][COLS] , char symbol)
+{
+       //check the first horizontal row.
+       if (board[0][0] == symbol && board[0][1] == symbol && board[0][2] == symbol)
+	     return true;
+	
+       //check the second horizontal row.
+       if (board[1][0] == symbol && board[1][1] == symbol && board[1][2] == symbol)
+	     return true;
+	
+       //check the third horizontal row.
+       if (board[2][0] == symbol && board[1][1] == symbol && board[1][0] == symbol)
+	     return true;
+	
+       //check the first column.
+       if (board[0][0] = symbol && board[1][0] == symbol && board[2][0] == symbol)
+	     return true;
+	
+       //check the second colum.
+       if (board [0][1] == symbol && board[1][1] == symbol && board[2][1] == symbol)
+	     return true;
+	
+       //check the third column.
+       if (board[0][2] == symbol && board[1][2] == symbol && board[2][2] == symbol)
+	     return true;
+	
+       //chack the daigonal.
+       if (board [0][0] == symbol && board[1][1] == symbol && board[2][2] == symbol)
+	     return true;
+	
+       //If we make is this far the player did not win
+       return false;
 }
