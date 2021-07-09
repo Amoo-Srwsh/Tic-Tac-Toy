@@ -133,5 +133,5 @@ bool gameOver(char board[][COLS])
        else
 	    return true;
 		
-		
+}		
 }
