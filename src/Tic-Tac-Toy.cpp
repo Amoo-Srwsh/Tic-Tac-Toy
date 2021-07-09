@@ -169,3 +169,14 @@ bool playerWins(char board[][COLS] , char symbol)
        //If we make is this far the player did not win
        return false;
 }
+
+//function 5
+void displayWinner(char board [][COLS])
+{
+       if (playerWins(board , 'X'))
+	  cout << "Player 1 (X) WINS!!!!!\n\n";
+       else if (palyerWins(board , 'O'))
+	  cout << "Player 2 (O) WINS!!!!!\n\n";
+       else
+	  cout << "Game Over...it's a TIE.\n\n";
+}
