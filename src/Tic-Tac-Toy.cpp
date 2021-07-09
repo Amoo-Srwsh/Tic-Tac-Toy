@@ -25,19 +25,19 @@ int main ()
 
 	do
 	{ 
-		//Call displayBoard
-		displayBoard(gameBoard);
+	   //Call displayBoard
+           displayBoard(gameBoard);
 
-		//Call playerTurn
-		playerTurn(gameBoard , 'X');
+	   //Call playerTurn
+	   playerTurn(gameBoard , 'X');
 
-		//Call displayBoard again
-		displayBoard(gameBoard);
+	   //Call displayBoard again
+	   displayBoard(gameBoard);
 
-		//If the the game is not over, let
-		//player 2 have a turn.
-		if(!gameOver(gameBoard))
-			playerTurn(gameBoard , 'O');
+           //If the the game is not over, let
+	   //player 2 have a turn.
+	   if(!gameOver(gameBoard))
+		   playerTurn(gameBoard , 'O');
 
 	}while (!gameOver(gameBoard));
 
@@ -60,15 +60,15 @@ void displayBoard(char [][COLS])
 	//Display the rows.
 	for(int row = 0; row < ROW; row++)
 	{
-		//Row label
-		cout << "Row " << (row+1) << ":  ";
+	   //Row label
+	   cout << "Row " << (row+1) << ":  ";
 
-		//Row contents.
+	   //Row contents.
 		for(int col = 0; col < COLS; col++)
 		{
-			cout << board[row][col] <<  "  ";
+		   cout << board[row][col] <<  "  ";
 		}
-		cout << endl;
+	   cout << endl;
 	}
 }
 
