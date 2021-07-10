@@ -93,7 +93,7 @@ void playerTurn(char board[][COLS] , char symbol)
 	     cout << "Row: "; cin >> row;
 		
 	     //Validate the row.
-	     while (row < 1 || row > ROWS)
+	     while (row < 1 || row > ROW)
 	     {
 		  cout << "Invalid Row!\n";
 		  cout << "Row: "; cin >> row;
