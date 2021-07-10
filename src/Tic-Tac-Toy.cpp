@@ -51,7 +51,7 @@ int main ()
 }
 
 //function 1
-void displayBoard(char [][COLS])
+void displayBoard(char board[][COLS])
 {
 	//Display the column headings.
 	cout << "     Columns\n";
@@ -111,7 +111,7 @@ void playerTurn(char board[][COLS] , char symbol)
 	     //Determine whether the selected
 	     //Call is available.
 	     if(board[row - 1][col - 1] == '*')
-		isAvailabel = true;
+		isAvailable = true;
 	     else
                 cout << "That location is not available. " << "Select another location.\n";
 		
@@ -126,9 +126,9 @@ void playerTurn(char board[][COLS] , char symbol)
 bool gameOver(char board[][COLS])
 {
        //if either player has already won, game over.
-       if(playerWins(board , 'X') || playerWins(board , 'O'))
+       if(playWins(board , 'X') || playWins(board , 'O'))
 	    return true;
-       else if (playerCanWin(board , 'X') || playerCanWin(board , 'O'))
+       else if (playCanWin(board , 'X') || playCanWin(board , 'O'))
 	    return false;
        else
 	    return true;
@@ -136,7 +136,7 @@ bool gameOver(char board[][COLS])
 }
 
 //function 4
-bool playerWins(char board[][COLS] , char symbol)
+bool playWins(char board[][COLS] , char symbol)
 {
        //check the first horizontal row.
        if (board[0][0] == symbol && board[0][1] == symbol && board[0][2] == symbol)
@@ -171,12 +171,61 @@ bool playerWins(char board[][COLS] , char symbol)
 }
 
 //function 5
-void displayWinner(char board [][COLS])
+bool playCanWin(char board[][COLS] , char symbol)
 {
-       if (playerWins(board , 'X'))
-	  cout << "Player 1 (X) WINS!!!!!\n\n";
-       else if (palyerWins(board , 'O'))
-	  cout << "Player 2 (O) WINS!!!!!\n\n";
-       else
-	  cout << "Game Over...it's a TIE.\n\n";
+	//check the firs horizantl row for a possibility
+	if ((board[0][0] == symbol || board[0][0] == '*') &&
+		(board[0][1] == symbol || board[0][1] == '*') &&
+        (board[0][2] == symbol || board[0][2] == '*'))
+        return true;
+
+    //check the second horizontal row for a possibility.
+    if ((board[1][0] == symbol || board[1][0] == '*') &&
+    	(board[1][1] == symbol || board[1][1] == '*') &&
+    	(board[1][2] == symbol || board[1][2] == '*'))
+    	return true;
+
+    //check the third horizontal row for a possibiliaty.
+    if ((board[2][0] == symbol || board[2][0] == '*') &&
+    	(board[2][1] == symbol || board[2][1] == '*') &&
+    	(board[2][2] == symbol || board[2][2] == '*'))
+    	return true;
+
+    //check the first column for a possibility.
+    if ((board[0][0] == symbol || board[0][0] == '*') &&
+    	(board[1][0] == symbol || board[1][0] == '*') &&
+    	(board[2][0] == symbol || board[2][0] == '*'))
+    	return true;
+
+    //check the second column for a possibility.
+    if ((board[0][1] == symbol || board[0][1] == '*') &&
+    	(board[1][1] == symbol || board[1][1] == '*') &&
+        (board[2][1] == symbol || board[2][1] == '*'))
+        return true;
+
+    //check the third column for a possibility.
+    if ((board[0][2] == symbol || board[0][2] == '*') &&
+    	(board[1][2] == symbol || board[1][2] == '*') && 
+    	(board[2][2] == symbol || board[2][2] == '*'))
+    	return true;
+
+    //check the diagonal for a possibility.
+    if ((board[0][0] == symbol || board[0][0] == '*') &&
+    	(board[1][1] == symbol || board[1][1] == '*') &&
+    	(board[2][2] == symbol || board[2][2] == '*'))
+    	return true;
+
+    //if we make it this far, the player cannot win.
+    return false;
+}
+
+//function 6
+void displayWinner(char board[][COLS])
+{
+	if (playWins(board , 'X'))
+		cout << "Player 1 (X) WINS!!!!!\n\n";
+	else if (playWins(board , 'O'))
+		cout << "Player 2 (O) WINS!!!!!\n\n";
+	else
+		cout << "Game Over... it's a TIE.\n\n";
 }
