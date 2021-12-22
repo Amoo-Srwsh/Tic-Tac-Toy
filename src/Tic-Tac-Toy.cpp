@@ -1,231 +1,122 @@
-//Copyleft Ammo-Srush
-//Open Source 
-//Tic-Tac-Toy
+//in the name of God
 #include <iostream>
 using namespace std;
 
-//Lets Get Started
+#define ROW 3
+#define COLS 3
+#define TRUE 1
+#define FALSE 0
 
-const int ROW  = 3;
-const int COLS = 3;
+void display_board ( void );
+void player_turn ( char player_symbol );
+int player_win ( void );
 
-// Functions prototypes
-void displayBoard(char [][COLS]);
-void playerTurn(char [][COLS] , char);
-bool gameOver(char [][COLS]);
-bool playWins(char [][COLS] , char);
-bool playCanWin(char [][COLS] , char);
-void displayWinner(char [][COLS]);
+char board[ ROW ][ COLS ] =
+        { {'*','*','*',},
+          {'*','*','*',},
+          {'*','*','*',} };
 
 int main ()
 {
-	char gameBoard[ROW][COLS]=
-	                         {{'*','*','*'},
-	                          {'*','*','*'}};
+	do {
 
-	do
-	{ 
-	   //Call displayBoard
-           displayBoard(gameBoard);
+		display_board ();
 
-	   //Call playerTurn
-	   playerTurn(gameBoard , 'X');
+		player_turn ( 'X' );
+		
+		display_board ();
 
-	   //Call displayBoard again
-	   displayBoard(gameBoard);
+		player_turn ( 'O' );
 
-           //If the the game is not over, let
-	   //player 2 have a turn.
-	   if(!gameOver(gameBoard))
-		   playerTurn(gameBoard , 'O');
-
-	}while (!gameOver(gameBoard));
-
-	//Call displayBoard
-	displayBoard(gameBoard);
-
-	//Call displayWinner
-	displayWinner(gameBoard);
-
-	return 0;
+	} while ( TRUE );
 }
 
-//function 1
-void displayBoard(char board[][COLS])
+void display_board ( void )
 {
-	//Display the column headings.
-	cout << "     Columns\n";
-	cout << "      1  2  3\n";
+	cout << "\n";
+	cout << "        1 2 3 \n";
 
-	//Display the rows.
-	for(int row = 0; row < ROW; row++)
-	{
-	   //Row label
-	   cout << "Row " << (row+1) << ":  ";
+	for ( int i = 0; i < ROW; i++ ) {
 
-	   //Row contents.
-		for(int col = 0; col < COLS; col++)
-		{
-		   cout << board[row][col] <<  "  ";
+		cout << " ROW " << ( i + 1 ) << ": ";
+		for ( int j = 0; j < COLS; j++ )
+			cout << board[ i ][ j ] << " ";
+		cout << endl;
+	}
+}
+
+void player_turn ( char player_symbol )
+{
+	bool check_valid_location = false;
+	int row,
+	    col;
+
+	cout << " Turn Player " << player_symbol << endl;
+
+	do {
+
+		cout << " Row: "; cin >> row;
+		while ( row < 1 || row > 3 ) {
+			cout << " Invalid Row Please Try Again: "; cin >> row;
 		}
-	   cout << endl;
+
+		cout << " Cols: "; cin >> col;
+		while ( col < 1 || col > 3 ) {
+			cout << " Invalid Col Please Try Again: "; cin >> col;
+		}
+
+		if ( board[ row - 1 ][ col - 1 ] == '*' )
+			check_valid_location = true;
+
+	} while ( !check_valid_location );
+
+	board[ row - 1 ][ col - 1 ] = player_symbol;
+
+	int result = player_win ();
+	if ( result ) {
+		
+		if ( result == 1 )
+			cout << " Player 1 Won " << "( X )";
+		if ( result == 2 )
+			cout << " Player 2 Won " << "( O )";
+
+		exit( 1 );
 	}
 }
 
-//function 2
-void playerTurn(char board[][COLS] , char symbol)
+int player_win ( void )
 {
-	//The isAvailable flag is set to true when the
-	//player selects a location in the board that
-	//is availabel.
-	bool isAvailable = false;
-	
-	int row;
-	int col;
-	
-	cout << "Player " << symbol << "s' turn.\n";
-	cout << "Enter a row and column to place an " << symbol << ".\n";
-	
-	//Get and validate the location.
-	while (!isAvailable)
-	{
-	     //Get the row.
-	     cout << "Row: "; cin >> row;
-		
-	     //Validate the row.
-	     while (row < 1 || row > ROW)
-	     {
-		  cout << "Invalid Row!\n";
-		  cout << "Row: "; cin >> row;
-	     }
-             
-	     //Get the column.
-	     cout << "Column: "; cin >> col;
-		
-	     //Validate the column.
-	     while (col < 1 || col > COLS)
-	     {
-		  cout << "Invalid Column!\n";
-		  cout << "Column: "; cin >> col;
-	     }
-	     //Determine whether the selected
-	     //Call is available.
-	     if(board[row - 1][col - 1] == '*')
-		isAvailable = true;
-	     else
-                cout << "That location is not available. " << "Select another location.\n";
-		
+
+	int x[ 3 ][ 3 ],   // to Record x&o
+    	    o[ 3 ][ 3 ];
+
+	for ( int row = 0; row < 3; row++ ) {
+
+		for ( int col = 0; col < 3; col++ ) {
+
+			x[ row ][ col ] = 0, o[ row ][ col ] = 0;
+
+			if ( board[ row ][ col ] == 'X' )
+				x[ row ][ col ] = 1;
+			if ( board[ row ][ col ] == 'O' )
+				o[ row ][ col ] = 1;
+		}
 	}
+
+	for ( int i = 0; i < 3; i++ ) {
+
+		if ( x[ i ][ 0 ] + x[ i ][ 1 ] + x[ i ][ 2 ] == 3 ||
+		     x[ 0 ][ i ] + x[ 1 ][ i ] + x[ 2 ][ i ] == 3 )
+			return 1;
+		if ( o[ i ][ 0 ] + o[ i ][ 1 ] + o[ i ][ 2 ] == 3 ||
+		     o[ 0 ][ i ] + o[ 1 ][ i ] + o[ 2 ][ i ] == 3 )
+			return 2;
+	}
+
+	if ( x[ 0 ][ 0 ] + x[ 1 ][ 1 ] + x[ 2 ][ 2 ] == 3 || x[ 0 ][ 2 ] + x[ 1 ][ 1 ] + x[ 2 ][ 0 ] == 3 )
+		return 1;
+	if ( o[ 0 ][ 0 ] + o[ 1 ][ 1 ] + o[ 2 ][ 2 ] == 3 || o[ 0 ][ 2 ] + o[ 1 ][ 1 ] + o[ 2 ][ 0 ] == 3 )
+		return 2;
 	
-	//place the player's symbol on thw board
-	//at the selected location
-	board[row - 1][col -1] = symbol;
-}
-
-//function 3
-bool gameOver(char board[][COLS])
-{
-       //if either player has already won, game over.
-       if(playWins(board , 'X') || playWins(board , 'O'))
-	    return true;
-       else if (playCanWin(board , 'X') || playCanWin(board , 'O'))
-	    return false;
-       else
-	    return true;
-		
-}
-
-//function 4
-bool playWins(char board[][COLS] , char symbol)
-{
-       //check the first horizontal row.
-       if (board[0][0] == symbol && board[0][1] == symbol && board[0][2] == symbol)
-	     return true;
-	
-       //check the second horizontal row.
-       if (board[1][0] == symbol && board[1][1] == symbol && board[1][2] == symbol)
-	     return true;
-	
-       //check the third horizontal row.
-       if (board[2][0] == symbol && board[1][1] == symbol && board[1][0] == symbol)
-	     return true;
-	
-       //check the first column.
-       if (board[0][0] = symbol && board[1][0] == symbol && board[2][0] == symbol)
-	     return true;
-	
-       //check the second colum.
-       if (board [0][1] == symbol && board[1][1] == symbol && board[2][1] == symbol)
-	     return true;
-	
-       //check the third column.
-       if (board[0][2] == symbol && board[1][2] == symbol && board[2][2] == symbol)
-	     return true;
-	
-       //chack the daigonal.
-       if (board [0][0] == symbol && board[1][1] == symbol && board[2][2] == symbol)
-	     return true;
-	
-       //If we make is this far the player did not win
-       return false;
-}
-
-//function 5
-bool playCanWin(char board[][COLS] , char symbol)
-{
-	//check the firs horizantl row for a possibility
-	if ((board[0][0] == symbol || board[0][0] == '*') &&
-		(board[0][1] == symbol || board[0][1] == '*') &&
-        (board[0][2] == symbol || board[0][2] == '*'))
-        return true;
-
-    //check the second horizontal row for a possibility.
-    if ((board[1][0] == symbol || board[1][0] == '*') &&
-    	(board[1][1] == symbol || board[1][1] == '*') &&
-    	(board[1][2] == symbol || board[1][2] == '*'))
-    	return true;
-
-    //check the third horizontal row for a possibiliaty.
-    if ((board[2][0] == symbol || board[2][0] == '*') &&
-    	(board[2][1] == symbol || board[2][1] == '*') &&
-    	(board[2][2] == symbol || board[2][2] == '*'))
-    	return true;
-
-    //check the first column for a possibility.
-    if ((board[0][0] == symbol || board[0][0] == '*') &&
-    	(board[1][0] == symbol || board[1][0] == '*') &&
-    	(board[2][0] == symbol || board[2][0] == '*'))
-    	return true;
-
-    //check the second column for a possibility.
-    if ((board[0][1] == symbol || board[0][1] == '*') &&
-    	(board[1][1] == symbol || board[1][1] == '*') &&
-        (board[2][1] == symbol || board[2][1] == '*'))
-        return true;
-
-    //check the third column for a possibility.
-    if ((board[0][2] == symbol || board[0][2] == '*') &&
-    	(board[1][2] == symbol || board[1][2] == '*') && 
-    	(board[2][2] == symbol || board[2][2] == '*'))
-    	return true;
-
-    //check the diagonal for a possibility.
-    if ((board[0][0] == symbol || board[0][0] == '*') &&
-    	(board[1][1] == symbol || board[1][1] == '*') &&
-    	(board[2][2] == symbol || board[2][2] == '*'))
-    	return true;
-
-    //if we make it this far, the player cannot win.
-    return false;
-}
-
-//function 6
-void displayWinner(char board[][COLS])
-{
-	if (playWins(board , 'X'))
-		cout << "Player 1 (X) WINS!!!!!\n\n";
-	else if (playWins(board , 'O'))
-		cout << "Player 2 (O) WINS!!!!!\n\n";
-	else
-		cout << "Game Over... it's a TIE.\n\n";
+	return FALSE;
 }
