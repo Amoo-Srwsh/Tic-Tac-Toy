@@ -76,9 +76,9 @@ void player_turn ( char player_symbol )
 	if ( result ) {
 		
 		if ( result == 1 )
-			cout << " Player 1 Won " << "( X )";
+			cout << " Player 1 Won " << "( X ) \n";
 		if ( result == 2 )
-			cout << " Player 2 Won " << "( O )";
+			cout << " Player 2 Won " << "( O ) \n";
 
 		exit( 1 );
 	}
@@ -90,6 +90,8 @@ int player_win ( void )
 	int x[ 3 ][ 3 ],   // to Record x&o
     	    o[ 3 ][ 3 ];
 
+	int game_over_counter = 0;
+
 	for ( int row = 0; row < 3; row++ ) {
 
 		for ( int col = 0; col < 3; col++ ) {
@@ -97,9 +99,9 @@ int player_win ( void )
 			x[ row ][ col ] = 0, o[ row ][ col ] = 0;
 
 			if ( board[ row ][ col ] == 'X' )
-				x[ row ][ col ] = 1;
+				game_over_counter += x[ row ][ col ] = 1;
 			if ( board[ row ][ col ] == 'O' )
-				o[ row ][ col ] = 1;
+				game_over_counter += o[ row ][ col ] = 1;
 		}
 	}
 
@@ -118,5 +120,11 @@ int player_win ( void )
 	if ( o[ 0 ][ 0 ] + o[ 1 ][ 1 ] + o[ 2 ][ 2 ] == 3 || o[ 0 ][ 2 ] + o[ 1 ][ 1 ] + o[ 2 ][ 0 ] == 3 )
 		return 2;
 	
+	if ( game_over_counter == 9 ) {
+
+		cout << " Game Over !! \n";
+		exit (1);
+	}
+
 	return FALSE;
 }
